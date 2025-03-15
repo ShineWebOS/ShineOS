@@ -1,4 +1,6 @@
 # ShineOS
+[![cockroach_rainbows](https://cdn3.emoji.gg/emojis/34027-cockroach-rainbows.gif)](https://emoji.gg/emoji/34027-cockroach-rainbows) [![cockroach_rainbows](https://cdn3.emoji.gg/emojis/34027-cockroach-rainbows.gif)](https://emoji.gg/emoji/34027-cockroach-rainbows) [![cockroach_rainbows](https://cdn3.emoji.gg/emojis/34027-cockroach-rainbows.gif)](https://emoji.gg/emoji/34027-cockroach-rainbows) [![cockroach_rainbows](https://cdn3.emoji.gg/emojis/34027-cockroach-rainbows.gif)](https://emoji.gg/emoji/34027-cockroach-rainbows) [![cockroach_rainbows](https://cdn3.emoji.gg/emojis/34027-cockroach-rainbows.gif)](https://emoji.gg/emoji/34027-cockroach-rainbows)
+
 This is **ShineOS** - an online "operating system" (or just a **big joke** brought to life)
 
 1111122 contains many applications (web applications), and there **will be more!**
