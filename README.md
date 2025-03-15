@@ -7,7 +7,7 @@ This is **ShineOS** - an online "operating system" (or just a **big joke** broug
 
 **ShineOS** contains many applications (web applications), and there **will be more!**
 
-Currently there are applications such as: **emulator (real), eaglecraft (minecraft), terminal (js commands, etc.) and others**
+Currently there are applications such as: **emulator (real), eaglercraft (minecraft), terminal (js commands, etc.) and others**
 
 > WARNING: **DO NOT TRY TO DRINK 5-6 OR 7-8 LITERS OF OIL**
 > 
