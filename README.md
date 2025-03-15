@@ -5,7 +5,7 @@
 
 This is **ShineOS** - an online "operating system" (or just a **big joke** brought to life)
 
-1111122 contains many applications (web applications), and there **will be more!**
+**ShineOS** contains many applications (web applications), and there **will be more!**
 
 Currently there are applications such as: **emulator (real), eaglecraft (minecraft), terminal (js commands, etc.) and others**
 
