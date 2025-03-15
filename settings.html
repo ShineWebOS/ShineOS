@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link id="theme-style" rel="stylesheet" href="xenv.css">
+    <title>Theme Selector</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #f0f0f0;
+        }
+        .theme-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        .theme-option {
+            margin: 1rem 0;
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .theme-option:hover {
+            border-color: #0078d7;
+        }
+        .theme-option.active {
+            border-color: #0078d7;
+            background: #f0f8ff;
+        }    </style>
+</head>
+<body>
+    <div class="theme-container">
+        <h2>OS environment</h2>
+
+        <div class="theme-option" onclick="selectTheme('busenv')">
+            <h3>Blue Sky</h3>
+		 <p>Classic interface of ShineOS</p>
+        </div>
+
+        <div class="theme-option" onclick="selectTheme('xenv')">
+            <h3>EnviX</h3>
+		 <p>Modern desktop experience</p>
+        </div>
+
+        <button onclick="applyAndLaunch()">Save</button>
+Restart needed to apply changes!
+    </div>
+
+    <script>
+        let selectedTheme = localStorage.getItem('shineos-theme') || 'busenv';
+
+        function selectTheme(theme) {
+            selectedTheme = theme;
+            document.querySelectorAll('.theme-option').forEach(el => 
+                el.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+        }
+
+        const savedTheme = localStorage.getItem('shineos-theme') || 'busenv';
+        document.getElementById('theme-style').href = `${savedTheme}.css`;
+
+        function applyAndLaunch() {
+            localStorage.setItem('shineos-theme', selectedTheme);
+
+window.parent.postMessage('reload', '*');
+        }
+
+        window.onload = () => {
+            document.querySelectorAll('.theme-option').forEach(el => {
+                if(el.getAttribute('onclick').includes(selectedTheme)) {
+                    el.classList.add('active');
+                }
+            });
+        };
+    </script>
+</body>
+</html>

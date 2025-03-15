@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Terminal</title>
+    <style>
+body {
+    font-family: 'Courier New', monospace;
+    background: #000000;
+    color: #f2ffff; 
+    margin: 0;
+    padding: 20px;
+    cursor: url('assets/system/cursor.png'),auto;
+}
+
+#terminal {
+    width: 100%;
+    height: 90vh;
+    background: #000;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    border: none; 
+    border-radius: 0px;
+}
+
+#input-line {
+    display: flex;
+    align-items: center;
+}
+
+#prompt {
+    color: #f2ffff; 
+    margin-right: 10px;
+}
+
+#command-input {
+    background: transparent;
+    border: none;
+    color: #f2ffff; 
+    outline: none;
+    flex-grow: 1;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+}
+
+.output {
+    white-space: pre-wrap;
+    word-break: break-word;
+    color: #f2ffff; 
+}
+
+.error {
+    color: #ff0000; 
+}    </style>
+</head>
+<body>
+    <div id="terminal">
+        <div class="output">Welcome to ShineOS Terminal! Type "help" for commands.</div>
+        <div id="input-line">
+            <span id="prompt">ShineOS:~$</span>
+            <input type="text" id="command-input" autofocus>
+        </div>
+    </div>
+
+    <script>
+        const terminal = document.getElementById('terminal');
+        const commandInput = document.getElementById('command-input');
+
+        let commandHistory = [];
+        let historyIndex = -1;
+
+        const commands = {
+            help: () => `
+                Available commands:
+                - clear: Clear the terminal
+                - echo [text]: Print text
+                - calc [expression]: Evaluate a math expression
+                - history: Show command history
+                - js [code]: Execute JavaScript code
+            `,
+            clear: () => {
+                terminal.innerHTML = '<div id="input-line"><span id="prompt">ShineOS:~$</span><input type="text" id="command-input" autofocus></div>';
+                commandInput.focus();
+            },
+            echo: (args) => args.join(' '),
+            calc: (args) => {
+                try {
+                    return eval(args.join(' '));
+                } catch (e) {
+                    return `<span class="error">Error: ShineOS:~${e.message}</span>`;
+                }
+            },
+            history: () => commandHistory.join('\n'),
+            js: (args) => {
+                try {
+                    return eval(args.join(' '));
+                } catch (e) {
+                    return `<span class="error">Error: ShineOS:~${e.message}</span>`;
+                }
+            }
+        };
+
+        commandInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                executeCommand(commandInput.value.trim());
+                commandInput.value = '';
+            } else if (e.key === 'ArrowUp') {
+                if (historyIndex < commandHistory.length - 1) {
+                    historyIndex++;
+                    commandInput.value = commandHistory[historyIndex];
+                }
+            } else if (e.key === 'ArrowDown') {
+                if (historyIndex > 0) {
+                    historyIndex--;
+                    commandInput.value = commandHistory[historyIndex];
+                } else {
+                    historyIndex = -1;
+                    commandInput.value = '';
+                }
+            }
+        });
+
+        function executeCommand(input) {
+            if (!input) return;
+
+            commandHistory.unshift(input);
+            historyIndex = -1;
+
+            const [command, ...args] = input.split(' ');
+
+            const commandElement = document.createElement('div');
+            commandElement.className = 'output';
+            commandElement.innerHTML = `<span id="prompt">$</span> ShineOS:~${input}`;
+            terminal.insertBefore(commandElement, terminal.querySelector('#input-line'));
+
+            const outputElement = document.createElement('div');
+            outputElement.className = 'output';
+
+            if (commands[command]) {
+                outputElement.innerHTML = commands[command](args);
+            } else {
+                outputElement.innerHTML = `<span class="error">Command not found: ShineOS:~${command}</span>`;
+            }
+
+            terminal.insertBefore(outputElement, terminal.querySelector('#input-line'));
+            terminal.scrollTop = terminal.scrollHeight;
+            commandInput.focus();
+        }
+    </script>
+</body>
+</html>

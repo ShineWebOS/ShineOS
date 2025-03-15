@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Permissions-Policy" content="interest-cohort=()">
+    <title>ShineOS</title>
+    <link id="theme-style" rel="stylesheet" href="xenv.css"> <!-- По умолчанию EnviX -->
+</head>
+<body>
+    <div id="icons">
+        <div class="icon" onclick="openApp('Eaglercraft', '<iframe class=&quot;iframe-content&quot; src=&quot;https://eaglercraft.com/mc/1.8.8/&quot; sandbox=&quot;allow-scripts allow-same-origin allow-pointer-lock&quot;></iframe>')">
+            <img src="assets/apps/eagler.png" class="icon-image">
+            <span class="icon-label">Eaglercraft</span>
+        </div>
+        <div class="icon" onclick="openApp('uTorrent', '<iframe class=&quot;iframe-content&quot; src=&quot;https://lite.utorrent.com/&quot; sandbox=&quot;allow-scripts allow-same-origin&quot;></iframe>')">
+            <img src="assets/apps/torrent.png" class="icon-image">
+            <span class="icon-label">uTorrent</span>
+        </div>
+        <div class="icon" onclick="openApp('Photopea', '<iframe class=&quot;iframe-content&quot; src=&quot;https://www.photopea.com/&quot; sandbox=&quot;allow-scripts allow-same-origin&quot;></iframe>')">
+            <img src="assets/apps/pea.png" class="icon-image">
+            <span class="icon-label">Photopea</span>
+        </div>
+  <div class="icon" onclick="openApp('Virtual Desktops', '<iframe class=&quot;iframe-content&quot; src=&quot;emulator.html&quot; sandbox=&quot;allow-scripts allow-same-origin&quot;></iframe>')">
+    <img src="assets/apps/emu.png" class="icon-image">
+    <span class="icon-label">Virtual Desktops</span>
+  </div>
+  <div class="icon" onclick="openApp('Calculator', '<iframe class=&quot;iframe-content&quot; src=&quot;https://forbirdden.github.io/SimpleCalculator/calc.html&quot; sandbox=&quot;allow-scripts allow-same-origin&quot;></iframe>')">
+    <img src="assets/apps/calc.png" class="icon-image">
+    <span class="icon-label">Calculator</span>
+  </div>
+  <div class="icon" onclick="openApp('Terminal', '<iframe class=&quot;iframe-content&quot; src=&quot;cmd.html&quot; sandbox=&quot;allow-scripts allow-modals allow-same-origin&quot;></iframe>')">
+    <img src="assets/apps/cmd.png" class="icon-image">
+    <span class="icon-label">Terminal</span>
+  </div>
+    </div>
+
+    <div id="desktop"></div>
+
+    <div class="taskbar">
+        <div class="dropdown">
+            <img src="assets/system/logo.png" class="start" alt="Shiny Button" onclick="toggleMenu()" style="cursor:pointer;">
+            <div id="dropdownMenu" class="dropdown-content">
+                <a href="#" id="menuItem1">Button placeholder</a>
+                <a href="#" id="menuItem2">Settings</a>
+                <a href="#" id="menuItem3">Power options</a>
+            </div>
+        </div>
+        <div id="taskbar-apps" style="display: flex; gap: 10px"></div>
+        <div style="flex-grow: 1"></div>
+
+        <div class="datetime-container">
+            <div id="time" class="taskbar-item"></div>
+            <div id="date" class="taskbar-item"></div>
+        </div>
+
+        <div style="flex-grow: 1"></div>
+        <div class="taskbar-item">ShineOS Beta 1</div>
+    </div>
+
+    <div id="powerOptions" class="dropdown-content-power-options">
+        <a href="#" id="poweroptionsmenuItem1">Restart</a>
+        <a href="#" id="poweroptionsmenuItem2">Shutdown</a>
+    </div>
+
+    <audio id="startup" src="assets/system/startup_sound.mp3"></audio>
+
+    <script>
+        let windowCount = 0;
+        let zIndexCounter = 1000;
+        let isResizing = false;
+        let currentWindow = null;
+        let startX, startY, startWidth, startHeight;
+        let minimizedWindows = {};
+
+        function openApp(title, content) {
+            const id = `window-${windowCount++}`;
+            const windowElement = document.createElement('div');
+
+            windowElement.className = 'window';
+            windowElement.id = id;
+            windowElement.style.zIndex = zIndexCounter++;
+            windowElement.style.left = `${Math.random() * 100}px`;
+            windowElement.style.top = `${Math.random() * 100}px`;
+
+    const titleBar = document.createElement('div');
+    titleBar.className = 'title-bar';
+
+    const minimizeBtn = document.createElement('button');
+    minimizeBtn.className = 'minimize-btn';
+    minimizeBtn.innerHTML = '?'; 
+    minimizeBtn.onclick = () => minimizeWindow(id, title);
+
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'close-btn';
+    closeBtn.innerHTML = '?'; 
+    closeBtn.onclick = () => closeWindow(id);
+
+    titleBar.appendChild(minimizeBtn);
+    titleBar.appendChild(closeBtn);
+    titleBar.appendChild(titleText); 
+            document.getElementById('desktop').appendChild(windowElement);
+            return windowElement;
+        }
+
+        function minimizeWindow(id, title) {
+            const windowElement = document.getElementById(id);
+            windowElement.style.display = 'none';
+
+            const isBlueSky = document.body.classList.contains('busenv');
+            const container = isBlueSky ? 
+                document.querySelector('.taskbar') : 
+                document.getElementById('icons');
+
+            const appElement = document.createElement('div');
+            appElement.className = isBlueSky ? 'taskbar-app minimized' : 'dock-app minimized';
+            appElement.textContent = isBlueSky ? title : '';
+            appElement.innerHTML = isBlueSky ? title : `<img src="assets/apps/${title.toLowerCase()}.png" width="32">`;
+
+            appElement.onclick = () => restoreWindow(id);
+            minimizedWindows[id] = appElement;
+
+            if(isBlueSky) {
+                document.querySelector('.taskbar').insertBefore(appElement, document.querySelector('.datetime-container'));
+            } else {
+                document.getElementById('icons').appendChild(appElement);
+            }
+        }
+
+        function restoreWindow(id) {
+            const windowElement = document.getElementById(id);
+            windowElement.style.display = 'block';
+            windowElement.style.zIndex = zIndexCounter++;
+
+            if(minimizedWindows[id]) {
+                minimizedWindows[id].remove();
+                delete minimizedWindows[id];
+            }
+        }
+
+        function closeWindow(id) {
+            const windowElement = document.getElementById(id);
+            if (windowElement) windowElement.remove();
+
+            if(minimizedWindows[id]) {
+                minimizedWindows[id].remove();
+                delete minimizedWindows[id];
+            }
+        }
+
+function startDrag(event, id) {
+  if (isResizing) return;
+  draggedElement = document.getElementById(id);
+  if (!draggedElement) return;
+
+  draggedElement.style.zIndex = zIndexCounter++;
+  const rect = draggedElement.getBoundingClientRect();
+  offsetX = event.clientX - rect.left;
+  offsetY = event.clientY - rect.top;
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+}
+
+function onMouseMove(event) {
+  if (draggedElement && !isResizing) {
+    draggedElement.style.left = `${event.clientX - offsetX}px`;
+    draggedElement.style.top = `${event.clientY - offsetY}px`;
+  }
+}
+
+function onMouseUp() {
+  document.removeEventListener('mousemove', onMouseMove);
+  document.removeEventListener('mouseup', onMouseUp);
+  draggedElement = null;
+}
+
+function startResize(e, id) {
+  e.preventDefault();
+  isResizing = true;
+  currentWindow = document.getElementById(id);
+  startX = e.clientX;
+  startY = e.clientY;
+  startWidth = parseInt(document.defaultView.getComputedStyle(currentWindow).width, 10);
+  startHeight = parseInt(document.defaultView.getComputedStyle(currentWindow).height, 10);
+
+  document.addEventListener('mousemove', resize);
+  document.addEventListener('mouseup', stopResize);
+}
+
+function resize(e) {
+  if (isResizing && currentWindow) {
+    const width = startWidth + (e.clientX - startX);
+    const height = startHeight + (e.clientY - startY);
+
+    currentWindow.style.width = `${width}px`;
+    currentWindow.style.height = `${height}px`;
+
+    const content = currentWindow.querySelector('.content');
+    if (content) {
+      content.style.width = '100%';
+      content.style.height = 'calc(100% - 40px)';
+    }
+  }
+}
+
+function stopResize() {
+  isResizing = false;
+  currentWindow = null;
+  document.removeEventListener('mousemove', resize);
+  document.removeEventListener('mouseup', stopResize);
+}
+
+function updateDateTime() {
+  const now = new Date();
+  document.getElementById('time').textContent = now.toLocaleTimeString('ru-RU', {
+    hour: '2-digit',
+    minute: '2-digit'
+  });
+}
+
+        const savedTheme = localStorage.getItem('shineos-theme') || 'busenv';
+        document.getElementById('theme-style').href = `${savedTheme}.css`;
+
+function toggleMenu() {
+  const menu = document.getElementById("dropdownMenu");
+  menu.style.display = menu.style.display === "block" ? "none" : "block";
+}
+
+window.onload = function() {
+  updateDateTime();
+  setInterval(updateDateTime, 1000);
+  setTimeout(() => {
+    const audio = document.getElementById('startup');
+    audio.play().catch(e => console.error('Audio playback error:', e));
+  }, 1000);
+};
+
+document.getElementById("menuItem1").addEventListener("click", () => alert("This is placeholder!"));
+document.getElementById("menuItem2").addEventListener("click", function(e) {
+  e.preventDefault();
+  toggleMenu(); 
+  openApp('ShineOS Settings', `
+    <iframe class="iframe-content" 
+            src="settings.html" 
+            style="border:none; width:100%; height:100%">
+    </iframe>
+  `);
+});
+document.getElementById("menuItem3").addEventListener("click", () => {
+  document.getElementById("powerOptions").style.display = "block";
+});
+
+document.getElementById("poweroptionsmenuItem1").addEventListener("click", function() {
+  location.reload();
+});
+document.getElementById("poweroptionsmenuItem2").addEventListener("click", () => window.location.href = "blank.html");
+
+window.addEventListener('message', function(event) {
+
+  if (event.source === document.getElementById('settings-iframe').contentWindow) {
+    if (event.data === 'reload') {
+      window.location.reload();
+    }
+  }
+});
+
+let lockedIframe = null; 
+
+function openApp(title, content) {
+  const id = `window-${windowCount++}`;
+  const windowElement = document.createElement('div');
+
+  windowElement.className = 'window';
+  windowElement.id = id;
+  windowElement.style.zIndex = zIndexCounter++;
+  windowElement.style.left = `${Math.random() * 100}px`;
+  windowElement.style.top = `${Math.random() * 100}px`;
+
+  const titleBar = document.createElement('div');
+  titleBar.className = 'title-bar';
+  titleBar.onmousedown = (e) => startDrag(e, id);
+
+  const titleText = document.createElement('h1');
+  titleText.textContent = title;
+
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'close-btn';
+  closeBtn.textContent = 'X';
+  closeBtn.onclick = () => {
+    if (lockedIframe === windowElement) unlockPointer();
+    closeWindow(id);
+  };
+
+  const contentDiv = document.createElement('div');
+  contentDiv.className = 'content';
+  contentDiv.innerHTML = content;
+
+  const resizeHandle = document.createElement('div');
+  resizeHandle.className = 'resize-handle';
+  resizeHandle.onmousedown = (e) => startResize(e, id);
+
+  titleBar.appendChild(titleText);
+  titleBar.appendChild(closeBtn);
+  windowElement.appendChild(titleBar);
+  windowElement.appendChild(contentDiv);
+  windowElement.appendChild(resizeHandle);
+
+  document.getElementById('desktop').appendChild(windowElement);
+
+  if (title === 'Eaglercraft') {
+    const iframe = windowElement.querySelector('iframe');
+    if (iframe) {
+      iframe.addEventListener('click', () => {
+        if (!lockedIframe) {
+          lockPointer(iframe);
+        }
+      });
+
+      iframe.style.cursor = 'none';
+      iframe.title = 'Click to lock pointer (Escape to unlock)';
+    }
+  }
+
+  return windowElement;
+}
+
+function lockPointer(iframe) {
+  iframe.requestPointerLock = iframe.requestPointerLock || iframe.mozRequestPointerLock;
+  iframe.requestPointerLock();
+  lockedIframe = iframe;
+
+  document.addEventListener('keydown', handleEscape);
+}
+
+function unlockPointer() {
+  document.exitPointerLock();
+  lockedIframe = null;
+  document.removeEventListener('keydown', handleEscape);
+}
+
+function handleEscape(event) {
+  if (event.key === 'Escape' && lockedIframe) {
+    unlockPointer();
+  }
+}
+
+document.addEventListener('click', (e) => {
+  const powerOptions = document.getElementById('powerOptions');
+  if (!e.target.closest('.dropdown') && !e.target.closest('.dropdown-content-power-options')) {
+    powerOptions.style.display = 'none';
+    document.getElementById('dropdownMenu').style.display = 'none';
+  }
+});
+
+document.addEventListener('pointerlockchange', () => {
+  if (!document.pointerLockElement) {
+    lockedIframe = null;
+  }
+});
+</script>
+</body>
+</html>

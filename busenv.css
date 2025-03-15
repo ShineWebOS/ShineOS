@@ -1,0 +1,192 @@
+body {
+  background-image: url('assets/wallpaper/default.jpg');
+  background-color: #e1bbba;
+  background-size: cover;
+  background-repeat: no-repeat;
+  font-family: "Ubuntu", sans-serif;
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.taskbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  background-color: #f2f2f2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  box-sizing: border-box;
+  z-index: 10000;
+}
+
+.start {
+  width: 40px;
+  height: 40px;
+} 
+
+
+.taskbar-item {
+  color: #000000;
+  font-size: 14px;
+  padding: 0 10px;
+}
+
+.datetime-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  color: #fff;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 10001;
+  bottom: 50px;
+}
+
+.dropdown-content-power-options {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 10001;
+  top: 90%;
+  right: 0;
+}
+
+.dropdown-content a,
+.dropdown-content-power-options a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover,
+.dropdown-content-power-options a:hover {
+  background-color: #f1f1f1;
+}
+
+#icons {
+  display: flex;
+  gap: 25px;
+  padding: 25px;
+  flex-wrap: wrap;
+}
+
+.icon {
+  width: 80px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.icon:hover {
+  transform: scale(1.05);
+}
+
+.icon-image {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 8px;
+  object-fit: contain;
+  filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.3));
+}
+
+.icon-label {
+  color: white;
+  font-size: 12px;
+  line-height: 1.2;
+  word-break: break-word;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+  padding: 0 2px;
+}
+
+.window {
+  width: 800px;
+  height: 600px;
+  border: 1px solid #000;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  position: absolute;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 1000;
+  resize: both;
+  min-width: 400px;
+  min-height: 300px;
+}
+
+.title-bar {
+  background-color: #0078d7;
+  color: white;
+  padding: 10px;
+  cursor: move;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title-bar h1 {
+  margin: 0;
+  font-size: 16px;
+  user-select: none;
+}
+
+.close-btn {
+  background-color: #ff5c5c;
+  border: none;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 0 10px;
+  cursor: pointer;
+  height: 20px;
+  border-radius: 3px;
+}
+
+.close-btn:hover {
+  background-color: #ff4444;
+}
+
+.content {
+  flex: 1;
+  overflow: hidden;
+}
+
+.iframe-content {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.resize-handle {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 5px;
+  height: 5px;
+  background: #ffffff;
+  cursor: nwse-resize;
+  z-index: 1001;
+}

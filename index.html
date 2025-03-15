@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShineOS</title>
+<style>
+body {
+background-image: url('assets/wallpaper/boot.png');
+background-color: #000000;
+background-size: cover;
+background-repeat: repeat;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+height: 100vh;
+margin: 0;
+overflow: hidden;
+}
+.container {
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+
+.circle {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;  
+  height: 300px;
+  border-radius: 50%;
+  background: 
+    radial-gradient(closest-side, black 93%, transparent 94% 100%), 
+    conic-gradient(#0098f6 0%, #0098f6 var(--progress), transparent var(--progress));
+  animation: fill 5s forwards;
+}
+
+@keyframes fill {
+  from {
+    --progress: 0%;
+  }
+  to {
+    --progress: 100%;
+  }
+}
+
+@property --progress {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 0%;
+}
+
+.image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  z-index: 1; 
+}
+</style>
+</head>
+<body>
+<div class="circle"></div>
+<div class="container">
+<img width="256" height="256" src="assets/system/logo.png" class="image" alt="ShineOS">
+</div>
+</div>
+<script>
+setTimeout(() => {
+    const iframe = document.createElement('iframe');
+    iframe.src = 'shineos.html';
+    iframe.style.position = 'fixed';
+    iframe.style.top = '0';
+    iframe.style.left = '0';
+    iframe.style.bottom = '0';
+    iframe.style.right = '0';
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.style.border = 'none';
+    iframe.style.margin = '0';
+    iframe.style.padding = '0';
+    iframe.style.overflow = 'hidden';
+    iframe.style.zIndex = '999999';
+    document.body.appendChild(iframe);
+}, 5000);
+</script>
+</body>
+</html>

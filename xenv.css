@@ -1,0 +1,298 @@
+body {
+  background-image: url('assets/wallpaper/default.jpg');
+  background-color: #e1bbba;
+  background-size: cover;
+  background-repeat: no-repeat;
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  cursor: url('assets/system/cursor.png'),auto;
+}
+
+.taskbar {
+  position: fixed;
+  top: 0; /* Изменено с bottom на top */
+  left: 0;
+  width: 100%;
+  height: 30px;
+  background-color: rgba(255, 255, 255); /* Добавлена прозрачность */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  box-sizing: border-box;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Необязательная граница */
+}
+
+.start {
+  width: 29px;
+  height: 29px;
+} 
+
+/* Обновите отступы для иконок, чтобы они не скрывались под панелью */
+.taskbar-item {
+  color: #000000;
+  font-size: 14px;
+  padding: 0 10px;
+}
+
+.datetime-container {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #000; /* Изменен цвет на черный для контраста */
+}
+
+#time {
+  font-weight: 700; /* Жирный шрифт */
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%; /* Меню открывается вниз */
+  left: 0;
+  background-color: rgba(249, 249, 249, 0.95);
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 10001;
+  backdrop-filter: blur(5px);
+  border-radius: 0 0 5px 5px;
+}
+
+.dropdown-content-power-options {
+  display: none;
+  position: absolute;
+  top: 0%; /* Меню открывается вниз */
+  right: 0;
+  background-color: rgba(249, 249, 249, 0.95);
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 10001;
+  backdrop-filter: blur(5px);
+  border-radius: 0 0 5px 5px;
+}
+.dropdown-content a,
+.dropdown-content-power-options a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover,
+.dropdown-content-power-options a:hover {
+  background-color: #f1f1f1;
+}
+
+#icons {
+  /* Общие стили для всех устройств */
+  display: flex;
+  gap: 25px;
+  padding: 25px;
+  flex-wrap: wrap;
+  background: rgba(242, 242, 242);
+  border-radius: 16px;
+  z-index: 10000;
+}
+
+/* Стили для десктопной версии */
+@media (min-width: 768px) {
+  #icons {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 25px;
+    backdrop-filter: blur(50px);
+    flex-wrap: nowrap;
+  }
+}
+
+.icon {
+  /* Базовые стили иконок */
+  width: 80px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.2s;
+  text-align: center;
+  position: relative;
+}
+
+.icon-image {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 8px;
+  object-fit: contain;
+  /* Убрана тень: filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.3)); */
+}
+
+.icon-label {
+  color: black;
+  font-size: 12px;
+  line-height: 1.2;
+  word-break: break-word;
+  padding: 0 2px;
+}
+
+/* Стили для десктопного ховера */
+@media (hover: hover) and (min-width: 768px) {
+  .icon {
+    width: 32px;
+    height: 32px;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .icon:hover {
+    transform: scale(1.2) translateY(-10px);
+  }
+
+  .icon-image {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 1px;
+  }
+
+  .icon-label {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .icon:hover .icon-label {
+    opacity: 1;
+  }
+
+  .icon::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    width: 4px;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .icon:hover::after {
+    opacity: 1;
+  }
+
+.window {
+  width: 800px;
+  height: 600px;
+  border: 1px solid #000;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  position: absolute;
+  background-color: rgba(242, 242, 242);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 1000;
+  backdrop-filter: blur(50px); 
+  resize: both;
+  min-width: 400px;
+  min-height: 300px;
+}
+
+.title-bar {
+  background-color: rgba(242, 242, 242, 0.9);
+  color: black;
+  padding: 10px;
+  cursor: move;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Центрируем заголовок */
+  padding-left: 35px; /* Отступ для кнопки */
+  justify-content: center;
+}
+
+.title-bar h1 {
+  margin: 0;
+  font-size: 16px;
+  user-select: none;
+}
+
+.close-btn {
+  background-color: #ff5c5c;
+  border: none;
+  color: #ff0000; /* Красный цвет буквы X */
+  font-weight: bold;
+  font-size: 14px;
+  width: 20px; /* Фиксированные размеры */
+  height: 20px;
+  border-radius: 50%; /* Круглая форма */
+  cursor: pointer;
+  position: absolute; /* Абсолютное позиционирование */
+  left: 10px; /* Позиция слева */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.close-btn:hover {
+  background-color: #ff4444;
+  transform: scale(1.1);
+}
+
+.content {
+  flex: 1;
+  overflow: hidden;
+}
+
+.iframe-content {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.resize-handle {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 5px;
+  height: 5px;
+  background: #ffffff;
+  cursor: nwse-resize;
+  z-index: 1001;
+}
+
+.minimize-btn {
+    background: #ffd700;
+    color: #ffd700;
+    border: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.minimize-btn:hover {
+    opacity: 0.8;
+}
