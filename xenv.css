@@ -3,7 +3,7 @@ body {
   background-color: #e1bbba;
   background-size: cover;
   background-repeat: no-repeat;
-  font-family: "Roboto", sans-serif;
+  font-family: "Open Sans", sans-serif;
   margin: 0;
   height: 100vh;
   overflow: hidden;
@@ -12,17 +12,17 @@ body {
 
 .taskbar {
   position: fixed;
-  top: 0; /* Изменено с bottom на top */
+  top: 0; /* Г€Г§Г¬ГҐГ­ГҐГ­Г® Г± bottom Г­Г  top */
   left: 0;
   width: 100%;
   height: 30px;
-  background-color: rgba(255, 255, 255); /* Добавлена прозрачность */
+  background-color: rgba(255, 255, 255); /* Г„Г®ГЎГ ГўГ«ГҐГ­Г  ГЇГ°Г®Г§Г°Г Г·Г­Г®Г±ГІГј */
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 10px;
   box-sizing: border-box;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Необязательная граница */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* ГЌГҐГ®ГЎГїГ§Г ГІГҐГ«ГјГ­Г Гї ГЈГ°Г Г­ГЁГ¶Г  */
 }
 
 .start {
@@ -30,7 +30,7 @@ body {
   height: 29px;
 } 
 
-/* Обновите отступы для иконок, чтобы они не скрывались под панелью */
+/* ГЋГЎГ­Г®ГўГЁГІГҐ Г®ГІГ±ГІГіГЇГ» Г¤Г«Гї ГЁГЄГ®Г­Г®ГЄ, Г·ГІГ®ГЎГ» Г®Г­ГЁ Г­ГҐ Г±ГЄГ°Г»ГўГ Г«ГЁГ±Гј ГЇГ®Г¤ ГЇГ Г­ГҐГ«ГјГѕ */
 .taskbar-item {
   color: #000000;
   font-size: 14px;
@@ -44,11 +44,11 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #000; /* Изменен цвет на черный для контраста */
+  color: #000; /* Г€Г§Г¬ГҐГ­ГҐГ­ Г¶ГўГҐГІ Г­Г  Г·ГҐГ°Г­Г»Г© Г¤Г«Гї ГЄГ®Г­ГІГ°Г Г±ГІГ  */
 }
 
 #time {
-  font-weight: 700; /* Жирный шрифт */
+  font-weight: 700; /* Г†ГЁГ°Г­Г»Г© ГёГ°ГЁГґГІ */
   font-size: 14px;
   letter-spacing: 0.5px;
 }
@@ -61,7 +61,7 @@ body {
 .dropdown-content {
   display: none;
   position: absolute;
-  top: 100%; /* Меню открывается вниз */
+  top: 100%; /* ГЊГҐГ­Гѕ Г®ГІГЄГ°Г»ГўГ ГҐГІГ±Гї ГўГ­ГЁГ§ */
   left: 0;
   background-color: rgba(249, 249, 249, 0.95);
   min-width: 160px;
@@ -74,7 +74,7 @@ body {
 .dropdown-content-power-options {
   display: none;
   position: absolute;
-  top: 0%; /* Меню открывается вниз */
+  top: 0%; /* ГЊГҐГ­Гѕ Г®ГІГЄГ°Г»ГўГ ГҐГІГ±Гї ГўГ­ГЁГ§ */
   right: 0;
   background-color: rgba(249, 249, 249, 0.95);
   min-width: 160px;
@@ -97,7 +97,7 @@ body {
 }
 
 #icons {
-  /* Общие стили для всех устройств */
+  /* ГЋГЎГ№ГЁГҐ Г±ГІГЁГ«ГЁ Г¤Г«Гї ГўГ±ГҐГµ ГіГ±ГІГ°Г®Г©Г±ГІГў */
   display: flex;
   gap: 25px;
   padding: 25px;
@@ -107,7 +107,7 @@ body {
   z-index: 10000;
 }
 
-/* Стили для десктопной версии */
+/* Г‘ГІГЁГ«ГЁ Г¤Г«Гї Г¤ГҐГ±ГЄГІГ®ГЇГ­Г®Г© ГўГҐГ°Г±ГЁГЁ */
 @media (min-width: 768px) {
   #icons {
     position: fixed;
@@ -121,7 +121,7 @@ body {
 }
 
 .icon {
-  /* Базовые стили иконок */
+  /* ГЃГ Г§Г®ГўГ»ГҐ Г±ГІГЁГ«ГЁ ГЁГЄГ®Г­Г®ГЄ */
   width: 80px;
   height: 100px;
   display: flex;
@@ -137,7 +137,7 @@ body {
   height: 60px;
   margin-bottom: 8px;
   object-fit: contain;
-  /* Убрана тень: filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.3)); */
+  /* Г“ГЎГ°Г Г­Г  ГІГҐГ­Гј: filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.3)); */
 }
 
 .icon-label {
@@ -148,7 +148,7 @@ body {
   padding: 0 2px;
 }
 
-/* Стили для десктопного ховера */
+/* Г‘ГІГЁГ«ГЁ Г¤Г«Гї Г¤ГҐГ±ГЄГІГ®ГЇГ­Г®ГЈГ® ГµГ®ГўГҐГ°Г  */
 @media (hover: hover) and (min-width: 768px) {
   .icon {
     width: 32px;
@@ -225,8 +225,8 @@ body {
   cursor: move;
   display: flex;
   align-items: center;
-  justify-content: center; /* Центрируем заголовок */
-  padding-left: 35px; /* Отступ для кнопки */
+  justify-content: center; /* Г–ГҐГ­ГІГ°ГЁГ°ГіГҐГ¬ Г§Г ГЈГ®Г«Г®ГўГ®ГЄ */
+  padding-left: 35px; /* ГЋГІГ±ГІГіГЇ Г¤Г«Гї ГЄГ­Г®ГЇГЄГЁ */
   justify-content: center;
 }
 
@@ -239,15 +239,15 @@ body {
 .close-btn {
   background-color: #ff5c5c;
   border: none;
-  color: #ff0000; /* Красный цвет буквы X */
+  color: #ff0000; /* ГЉГ°Г Г±Г­Г»Г© Г¶ГўГҐГІ ГЎГіГЄГўГ» X */
   font-weight: bold;
   font-size: 14px;
-  width: 20px; /* Фиксированные размеры */
+  width: 20px; /* Г”ГЁГЄГ±ГЁГ°Г®ГўГ Г­Г­Г»ГҐ Г°Г Г§Г¬ГҐГ°Г» */
   height: 20px;
-  border-radius: 50%; /* Круглая форма */
+  border-radius: 50%; /* ГЉГ°ГіГЈГ«Г Гї ГґГ®Г°Г¬Г  */
   cursor: pointer;
-  position: absolute; /* Абсолютное позиционирование */
-  left: 10px; /* Позиция слева */
+  position: absolute; /* ГЂГЎГ±Г®Г«ГѕГІГ­Г®ГҐ ГЇГ®Г§ГЁГ¶ГЁГ®Г­ГЁГ°Г®ГўГ Г­ГЁГҐ */
+  left: 10px; /* ГЏГ®Г§ГЁГ¶ГЁГї Г±Г«ГҐГўГ  */
   display: flex;
   align-items: center;
   justify-content: center;
