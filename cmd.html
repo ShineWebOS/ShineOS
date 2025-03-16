@@ -167,7 +167,7 @@
 
             const commandElement = document.createElement('div');
             commandElement.className = 'output';
-            commandElement.innerHTML = `<span id="prompt">$</span> ShineOS:~${input}`;
+            commandElement.innerHTML = `ShineOS:~<span id="prompt">$</span> ${input}`;
             terminal.insertBefore(commandElement, terminal.querySelector('#input-line'));
 
             const outputElement = document.createElement('div');
