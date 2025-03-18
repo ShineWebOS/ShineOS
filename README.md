@@ -20,4 +20,5 @@ And also perhaps **ShineOS** is somehow inspired by the North Korean RedStarOS *
 ![image](https://github.com/user-attachments/assets/81974600-70bd-474c-a8f0-fa175be7198a)
 
 # <a href="https://emoji.gg/emoji/7665-msp-fame-star-golden"><img src="https://cdn3.emoji.gg/emojis/7665-msp-fame-star-golden.png" width="24px" height="24px" alt="MSP_Fame_Star_Golden"></a> Star History
+
 [![Star History Chart](https://api.star-history.com/svg?repos=Forbirdden/ShineOS&type=Date)](https://www.star-history.com/#Forbirdden/ShineOS&Date)
