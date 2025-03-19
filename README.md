@@ -1,6 +1,4 @@
-# <a href="https://emoji.gg/emoji/97190-starrymoon"><img src="https://cdn3.emoji.gg/emojis/97190-starrymoon.png" width="30px" height="30px" alt="StarryMoon"></a> ShineOS
-
-![Shine_banner](https://github.com/user-attachments/assets/dfe242cb-1322-4faf-9639-25bd85feafdf)
+![ShineOS](https://github.com/user-attachments/assets/469927d2-4245-4eb1-a9be-c74be9f9326c)
 
 # <a href="https://emoji.gg/emoji/8208-shocked"><img src="https://cdn3.emoji.gg/emojis/8208-shocked.png" width="30px" height="30px" alt="shocked"></a> **WTH IS THAT?!!!**
 
