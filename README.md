@@ -1,5 +1,6 @@
 # <a href="https://emoji.gg/emoji/97190-starrymoon"><img src="https://cdn3.emoji.gg/emojis/97190-starrymoon.png" width="30px" height="30px" alt="StarryMoon"></a> ShineOS
-[![cockroach_rainbows](https://cdn3.emoji.gg/emojis/34027-cockroach-rainbows.gif)](https://emoji.gg/emoji/34027-cockroach-rainbows) [![cockroach_rainbows](https://cdn3.emoji.gg/emojis/34027-cockroach-rainbows.gif)](https://emoji.gg/emoji/34027-cockroach-rainbows) [![cockroach_rainbows](https://cdn3.emoji.gg/emojis/34027-cockroach-rainbows.gif)](https://emoji.gg/emoji/34027-cockroach-rainbows) [![cockroach_rainbows](https://cdn3.emoji.gg/emojis/34027-cockroach-rainbows.gif)](https://emoji.gg/emoji/34027-cockroach-rainbows) [![cockroach_rainbows](https://cdn3.emoji.gg/emojis/34027-cockroach-rainbows.gif)](https://emoji.gg/emoji/34027-cockroach-rainbows) [![cockroach_rainbows](https://cdn3.emoji.gg/emojis/34027-cockroach-rainbows.gif)](https://emoji.gg/emoji/34027-cockroach-rainbows)
+
+![Shine_banner](https://github.com/user-attachments/assets/dfe242cb-1322-4faf-9639-25bd85feafdf)
 
 # <a href="https://emoji.gg/emoji/8208-shocked"><img src="https://cdn3.emoji.gg/emojis/8208-shocked.png" width="30px" height="30px" alt="shocked"></a> **WTH IS THAT?!!!**
 
