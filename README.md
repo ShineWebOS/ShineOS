@@ -14,7 +14,7 @@ Also in **ShineOS** there are 2 desktop environments - **Blue Sky (Windows-like)
 
 Perhaps some part of the code is made by AI *(idk)*
 
-And also perhaps **ShineOS** is somehow inspired by the North Korean RedStarOS *(i'm not sure)*
+And also perhaps **ShineOS** is somehow inspired by the North Korean RedStar OS *(i'm not sure)*
 
 ![image](https://github.com/user-attachments/assets/81974600-70bd-474c-a8f0-fa175be7198a)
 
