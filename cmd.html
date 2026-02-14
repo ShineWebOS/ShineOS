@@ -6,7 +6,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JavaScript Terminal</title>
+    <title>ShineOS Terminal</title>
     <style>
         body {
             font-family: "Open Sans", sans-serif;
@@ -56,101 +56,87 @@
         .error {
             color: #ff0000;
         }
-
-        .fullscreen-iframe {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-            z-index: 9999;
-        }
     </style>
 </head>
 <body>
     <div id="terminal">
-        <div class="output">Welcome to ShineOS Terminal! Type "help" for commands.</div>
+        <div class="output">Booting ShineOS kernel...</div>
         <div id="input-line">
-            <span id="prompt">ShineOS:~$</span>
+            <span id="prompt">shine:/#</span>
             <input type="text" id="command-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" autofocus>
         </div>
     </div>
 
-    <script>
+    <script type="module">
+        import { ShineKernel } from './core/driver-registry.js';
+        import { DomTTYDriver } from './core/drivers/tty/dom-tty-driver.js';
+        import { MemoryFSDriver } from './core/drivers/fs/memory-fs-driver.js';
+        import { FileSystemAccessDriver } from './core/drivers/fs/file-system-access-driver.js';
+        import { ShineShell } from './core/shell/shine-sh.js';
+        import { detectRuntimeCapabilities, runtimeSummary } from './core/runtime/runtime-probe.js';
+
         const terminal = document.getElementById('terminal');
+        const prompt = document.getElementById('prompt');
         const commandInput = document.getElementById('command-input');
-        let commandHistory = [];
+
+        const capabilities = detectRuntimeCapabilities();
+        const kernel = new ShineKernel({ runtimeCapabilities: capabilities });
+
+        kernel.drivers.register('tty', 'dom', (options) => new DomTTYDriver(options));
+        kernel.drivers.register('fs', 'memory', () => new MemoryFSDriver());
+        kernel.drivers.register('fs', 'fsa', () => new FileSystemAccessDriver());
+
+        const tty = kernel.drivers.load('tty', 'dom', {
+            terminalElement: terminal,
+            promptElement: prompt,
+            inputElement: commandInput
+        });
+
+        kernel.drivers.load('fs', 'memory');
+
+        const shell = new ShineShell({ kernel });
+        const commandHistory = [];
         let historyIndex = -1;
 
-        const commands = {
-            help: () => `
-                Available commands:
-                - clear: Clear the terminal
-                - echo [text]: Print text
-                - calc [expression]: Evaluate math expression
-                - history: Show command history
-                - js [code]: Execute JavaScript code
-                - ssp: Launch ShineOS Subsystem for PoshlostiOS
-                - url [website]: Open any website (which allows iframes)
-            `,
-            clear: () => {
-                terminal.innerHTML = '<div id="input-line"><span id="prompt">ShineOS:~$</span><input type="text" id="command-input" autofocus></div>';
-                commandInput.focus();
-            },
-            echo: (args) => args.join(' '),
-            calc: (args) => {
-                try {
-                    return eval(args.join(' '));
-                } catch (e) {
-                    return `<span class="error">Error: ${e.message}</span>`;
-                }
-            },
-            history: () => commandHistory.join('\n'),
-            js: (args) => {
-                try {
-                    return eval(args.join(' '));
-                } catch (e) {
-                    return `<span class="error">Error: ${e.message}</span>`;
-                }
-            },
-            ssp: () => {
-                const iframe = document.createElement('iframe');
-                iframe.className = 'fullscreen-iframe';
-                iframe.src = 'https://poshlostios.meex.lol/';
-                document.body.appendChild(iframe);
-                terminal.style.display = 'none';
-                return '';
-            },
-            url: (args) => {
-                if(!args[0]) return `<span class="error">Please specify URL</span>`;
-                
-                let url = args[0];
-                if(!url.startsWith('http://') && !url.startsWith('https://')) {
-                    url = 'https://' + url;
-                }
+        tty.print('ShineOS unix-like shell started. Type "help".', 'output');
+        tty.print('Drivers loaded without hardcoded renderer: tty/dom + fs/memory.', 'output');
+        tty.print(`Runtime probe: ${runtimeSummary(capabilities)}`, 'output');
 
-                const iframe = document.createElement('iframe');
-                iframe.className = 'fullscreen-iframe';
-                iframe.src = url;
-                document.body.appendChild(iframe);
-                terminal.style.display = 'none';
-                return '';
-            }
-        };
+        if (!capabilities.wasixReady) {
+            tty.print('Note: Wasmer/WASI(X) runtime is not active yet. Current build is a JS kernel prototype.', 'output');
+        }
 
-        commandInput.addEventListener('keydown', (e) => {
+        commandInput.addEventListener('keydown', async (e) => {
             if (e.key === 'Enter') {
-                executeCommand(commandInput.value.trim());
+                const input = commandInput.value.trim();
+                if (!input) return;
+                commandHistory.unshift(input);
+                historyIndex = -1;
+                tty.print(`${prompt.textContent} ${input}`);
                 commandInput.value = '';
-            } else if (e.key === 'ArrowUp') {
+
+                await kernel.spawn('sh', async () => {
+                    try {
+                        const result = await shell.execute(input);
+                        if (result) tty.print(result);
+                    } catch (err) {
+                        tty.print(`Error: ${err.message}`, 'error');
+                    }
+                });
+
+                tty.focusInput();
+            }
+
+            if (e.key === 'ArrowUp') {
                 if (historyIndex < commandHistory.length - 1) {
-                    historyIndex++;
+                    historyIndex += 1;
                     commandInput.value = commandHistory[historyIndex];
                 }
-            } else if (e.key === 'ArrowDown') {
+            }
+
+            if (e.key === 'ArrowDown') {
                 if (historyIndex > 0) {
-                    historyIndex--;
+                    historyIndex -= 1;
                     commandInput.value = commandHistory[historyIndex];
                 } else {
                     historyIndex = -1;
@@ -158,31 +144,6 @@
                 }
             }
         });
-
-        function executeCommand(input) {
-            if (!input) return;
-            commandHistory.unshift(input);
-            historyIndex = -1;
-            const [command, ...args] = input.split(' ');
-
-            const commandElement = document.createElement('div');
-            commandElement.className = 'output';
-            commandElement.innerHTML = `ShineOS:~<span id="prompt">$</span> ${input}`;
-            terminal.insertBefore(commandElement, terminal.querySelector('#input-line'));
-
-            const outputElement = document.createElement('div');
-            outputElement.className = 'output';
-
-            if (commands[command]) {
-                outputElement.innerHTML = commands[command](args);
-            } else {
-                outputElement.innerHTML = `<span class="error">Command not found: ${command}</span>`;
-            }
-
-            terminal.insertBefore(outputElement, terminal.querySelector('#input-line'));
-            terminal.scrollTop = terminal.scrollHeight;
-            commandInput.focus();
-        }
     </script>
 </body>
 </html>
