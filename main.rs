@@ -15,14 +15,14 @@ pub mod fs;
 static ALLOCATOR: linked_list_allocator::LockedHeap = linked_list_allocator::LockedHeap::empty();
 
 pub fn kernel_main(dtb: String) {
-    arch::wasm32::console_log("\r\n[  \x1B[1;32mOK\x1B[0m  ] YADRO STAGE 1 LOADED\r\n");
-    arch::wasm32::console_log("[  \x1B[1;32mOK\x1B[0m  ] YADRO STAGE 2 LOADED.\r\n");
+    arch::wasm32::console_log("\r\n[  \x1B[1;32mOK\x1B[0m  ] 1\r\n");
+    arch::wasm32::console_log("[  \x1B[1;32mOK\x1B[0m  ] 2\r\n");
 
-    arch::wasm32::console_log("ZAPUSK DRAIVEROV FILE SYSTEM");
+    arch::wasm32::console_log("3");
     fs::mount("/root", Box::new(drivers::block::fsa_api::FsaStorage));
-    arch::wasm32::console_log("done.\r\n");
+    arch::wasm32::console_log("4\r\n");
 
-    arch::wasm32::console_log("\x1B[1;33mYADRO ZAPUSTILOS\x1B[0m\r\n");
+    arch::wasm32::console_log("\x1B[1;33mSHINEOS KERNEL RUNNING\x1B[0m\r\n");
 
     match fs::read("/root/hello.txt") {
         Ok(data) => arch::wasm32::console_log(&alloc::format!("[FS] Found hello.txt: {} bytes", data.len())),
