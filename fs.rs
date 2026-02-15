@@ -1,26 +1,28 @@
-use alloc::string::String;
-use alloc::vec::Vec;
 use alloc::boxed::Box;
 use alloc::collections::BTreeMap;
+use alloc::string::String;
+use alloc::vec::Vec;
 use spin::RwLock;
 
 #[derive(Debug)]
 pub enum FsError {
     NotFound,
     IOError,
-    NotSupported, 
+    NotSupported,
 }
 
 pub trait FileSystem: Send + Sync {
     fn read_file(&self, path: &str) -> Result<Vec<u8>, FsError>;
-    fn write_file(&self, path: &str, data: &[u8]) -> Result<(), FsError>; 
+    fn write_file(&self, path: &str, data: &[u8]) -> Result<(), FsError>;
 }
 
 struct Vfs {
     mounts: BTreeMap<String, Box<dyn FileSystem>>,
 }
 
-static STATE: RwLock<Vfs> = RwLock::new(Vfs { mounts: BTreeMap::new() });
+static STATE: RwLock<Vfs> = RwLock::new(Vfs {
+    mounts: BTreeMap::new(),
+});
 
 pub fn mount(path: &str, fs: Box<dyn FileSystem>) {
     STATE.write().mounts.insert(String::from(path), fs);

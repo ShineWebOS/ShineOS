@@ -3,37 +3,17 @@
 #![feature(alloc_error_handler)]
 
 extern crate alloc;
-use alloc::string::String;
-use alloc::boxed::Box;
-use core::panic::PanicInfo;
 
 pub mod arch;
 pub mod drivers;
 pub mod fs;
-
-#[global_allocator]
-static ALLOCATOR: linked_list_allocator::LockedHeap = linked_list_allocator::LockedHeap::empty();
-
-pub fn kernel_main(dtb: String) {
-    arch::wasm32::console_log("\r\n[  \x1B[1;32mOK\x1B[0m  ] 1\r\n");
-    arch::wasm32::console_log("[  \x1B[1;32mOK\x1B[0m  ] 2\r\n");
-
-    arch::wasm32::console_log("3");
-    fs::mount("/root", Box::new(drivers::block::fsa_api::FsaStorage));
-    arch::wasm32::console_log("4\r\n");
-
-    arch::wasm32::console_log("\x1B[1;33mSHINEOS KERNEL RUNNING\x1B[0m\r\n");
-
-    match fs::read("/root/hello.txt") {
-        Ok(data) => arch::wasm32::console_log(&alloc::format!("[FS] Found hello.txt: {} bytes", data.len())),
-        Err(_) => arch::wasm32::console_log("[FS] System disk ready."),
-    }
-}
+pub mod init;
+pub mod kernel;
+pub mod mm;
 
 #[panic_handler]
-fn panic(info: &PanicInfo) -> ! {
-    arch::wasm32::console_log(&alloc::format!("\x1B[1;31m[PANIC] {}\x1B[0m", info));
-    loop {}
+fn panic(info: &core::panic::PanicInfo) -> ! {
+    kernel::panic::handle(info)
 }
 
 #[alloc_error_handler]

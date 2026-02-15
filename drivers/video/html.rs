@@ -4,5 +4,7 @@ unsafe extern "C" {
 
 pub fn init() {
     let html = "<div style='color: #0f0;'>[driver] HTML Video Driver Active</div>";
-    unsafe { host_video_render(html.as_ptr(), html.len()); }
+    unsafe {
+        host_video_render(html.as_ptr(), html.len());
+    }
 }

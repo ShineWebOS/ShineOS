@@ -3,9 +3,9 @@ unsafe extern "C" {
 }
 
 pub fn init() {
-    crate::arch::wasm32::console_log("[driver] xterm_js initialized.");
+    crate::arch::console_write("[driver] xterm_js initialized");
 }
 
 pub fn write_byte(byte: u8) {
-    unsafe { host_tty_write(byte); }
+    unsafe { host_tty_write(byte) }
 }
